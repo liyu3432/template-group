@@ -1,0 +1,20 @@
+server:
+  name: spring
+  port: 9014
+  tomcat:
+    threads:
+      max: 200  #最大线程数
+      min-spare: 10 #最小线程数
+    max-connections: 8192 #最大连接数
+    accept-count: 100 #最大等待数
+    connection-timeout: 5000 #在Tomcat 7及更高版本中，默认的connection-timeout是20000（即20秒）  ,之前的版本是60000（60秒）
+xxl:
+  job:
+    admin:
+      addresses: http://192.168.10.101:9001/xxl-job-admin
+      accessToken: liyu3432
+    executor:
+      appname: xxl-job-executor-sample
+      port: 9999
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
