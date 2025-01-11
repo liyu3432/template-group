@@ -16,12 +16,12 @@ import java.util.Arrays;
 
 /**
  * XxlJob开发示例（Bean模式）
- *
+ * <p>
  * 开发步骤：
- *      1、任务开发：在Spring Bean实例中，开发Job方法；
- *      2、注解配置：为Job方法添加注解 "@XxlJob(value="自定义jobhandler名称", init = "JobHandler初始化方法", destroy = "JobHandler销毁方法")"，注解value值对应的是调度中心新建任务的JobHandler属性的值。
- *      3、执行日志：需要通过 "XxlJobHelper.log" 打印执行日志；
- *      4、任务结果：默认任务结果为 "成功" 状态，不需要主动设置；如有诉求，比如设置任务结果为失败，可以通过 "XxlJobHelper.handleFail/handleSuccess" 自主设置任务结果；
+ * 1、任务开发：在Spring Bean实例中，开发Job方法；
+ * 2、注解配置：为Job方法添加注解 "@XxlJob(value="自定义jobhandler名称", init = "JobHandler初始化方法", destroy = "JobHandler销毁方法")"，注解value值对应的是调度中心新建任务的JobHandler属性的值。
+ * 3、执行日志：需要通过 "XxlJobHelper.log" 打印执行日志；
+ * 4、任务结果：默认任务结果为 "成功" 状态，不需要主动设置；如有诉求，比如设置任务结果为失败，可以通过 "XxlJobHelper.handleFail/handleSuccess" 自主设置任务结果；
  *
  * @author xuxueli 2019-12-11 21:52:51
  */
@@ -45,15 +45,15 @@ public class SampleXxlJob {
     }
 
 
-
     /**
      * 1、简单任务示例（Bean模式）
      */
     @XxlJob("myHandler")
     public void myHandler() throws Exception {
         XxlJobHelper.log("myHandler  ,,,e.");
-
-        System.out.println("myHandler");
+        String jobParam = XxlJobHelper.getJobParam();
+        System.out.println("接收到的参数:"+jobParam);
+        System.out.println("myHandler,");
     }
 
 
@@ -122,7 +122,7 @@ public class SampleXxlJob {
         if (exitValue == 0) {
             // default success
         } else {
-            XxlJobHelper.handleFail("command exit value("+exitValue+") is failed");
+            XxlJobHelper.handleFail("command exit value(" + exitValue + ") is failed");
         }
 
     }
@@ -130,18 +130,18 @@ public class SampleXxlJob {
 
     /**
      * 4、跨平台Http任务
-     *  参数示例：
-     *      "url: http://www.baidu.com\n" +
-     *      "method: get\n" +
-     *      "data: content\n";
+     * 参数示例：
+     * "url: http://www.baidu.com\n" +
+     * "method: get\n" +
+     * "data: content\n";
      */
     @XxlJob("httpJobHandler")
     public void httpJobHandler() throws Exception {
 
         // param parse
         String param = XxlJobHelper.getJobParam();
-        if (param==null || param.trim().length()==0) {
-            XxlJobHelper.log("param["+ param +"] invalid.");
+        if (param == null || param.trim().length() == 0) {
+            XxlJobHelper.log("param[" + param + "] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -151,7 +151,7 @@ public class SampleXxlJob {
         String url = null;
         String method = null;
         String data = null;
-        for (String httpParam: httpParams) {
+        for (String httpParam : httpParams) {
             if (httpParam.startsWith("url:")) {
                 url = httpParam.substring(httpParam.indexOf("url:") + 4).trim();
             }
@@ -164,14 +164,14 @@ public class SampleXxlJob {
         }
 
         // param valid
-        if (url==null || url.trim().length()==0) {
-            XxlJobHelper.log("url["+ url +"] invalid.");
+        if (url == null || url.trim().length() == 0) {
+            XxlJobHelper.log("url[" + url + "] invalid.");
 
             XxlJobHelper.handleFail();
             return;
         }
-        if (method==null || !Arrays.asList("GET", "POST").contains(method)) {
-            XxlJobHelper.log("method["+ method +"] invalid.");
+        if (method == null || !Arrays.asList("GET", "POST").contains(method)) {
+            XxlJobHelper.log("method[" + method + "] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -201,7 +201,7 @@ public class SampleXxlJob {
             connection.connect();
 
             // data
-            if (isPostMethod && data!=null && data.trim().length()>0) {
+            if (isPostMethod && data != null && data.trim().length() > 0) {
                 DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
                 dataOutputStream.write(data.getBytes("UTF-8"));
                 dataOutputStream.flush();
@@ -253,10 +253,12 @@ public class SampleXxlJob {
     public void demoJobHandler2() throws Exception {
         XxlJobHelper.log("XXL-JOB, Hello World.");
     }
-    public void init(){
+
+    public void init() {
         logger.info("init");
     }
-    public void destroy(){
+
+    public void destroy() {
         logger.info("destroy");
     }
 
