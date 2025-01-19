@@ -1,7 +1,10 @@
 server:
   port: 8099
-spring:
-  rabbitmq:
-    addresses: 127.0.0.1
-    password: guest
-    username: guest
+
+rocketmq:
+  name-server: 192.168.10.101:9876;192.168.10.101:9877
+  producer:
+    send-message-timeout: 3000 # 设置消息发送超时时间为 3 秒
+    group: TestProducer
+  consumer:
+    group: TestConsumer

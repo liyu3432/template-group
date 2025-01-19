@@ -26,18 +26,34 @@
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client-java</artifactId>
             <version>5.0.6</version>
-            <!-- <exclusions>
+             <exclusions>
                 <exclusion>
                     <groupId>org.apache.tomcat</groupId>
                     <artifactId>annotations-api</artifactId>
                 </exclusion>
-            </exclusions> -->
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.3.1</version> <!-- 版本与 RocketMQ 5.x 兼容 -->
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
 
