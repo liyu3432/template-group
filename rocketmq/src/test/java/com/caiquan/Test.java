@@ -14,6 +14,11 @@ public class Test {
 
     @org.junit.Test
     public void add(){
-        rocketMQProducer.sendMessage("TestTopic","test topic message");
+        rocketMQProducer.sendMessage("TestTopic","test topic message 呵呵");
+    }
+
+    @org.junit.Test
+    public void sendDelayMessage(){
+        rocketMQProducer.sendDelayMessage("TestTopic","延迟队列测试",4);
     }
 }
